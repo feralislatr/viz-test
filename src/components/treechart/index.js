@@ -189,18 +189,18 @@ class TreeChart extends Component {
     return (
       svg.diagonal()
         .source((d) => {
-            return {x: d.source.x, y: d.source.y+nodeY}; //nodesize
+            return {x: d.source.x+(nodeX/2), y: d.source.y+(nodeY-40)}; //nodesize
         })
         .target((d) => {
-            return {x: d.target.x, y: d.target.y+(nodeY/4)}; //50
+            return {x: d.target.x+(nodeX/2), y: d.target.y}; //50
         })
         .projection((s) => {
-            return [s.x, s.y + ((nodeY+(nodeY/8) )/ 2)];
+            return [s.x, s.y ];
         })
       )
   }
 
- 
+  
   render(){
     return (
       <div id="treeWrapper" ref={wrap => (this.treeWrapper = wrap)}>
@@ -223,6 +223,9 @@ class TreeChart extends Component {
             }
           }}
         />
+        <svg className="test">
+        <rect x="120" y="165" rx="4" ry="4"/>
+      </svg>
       </div>
     );
   }
