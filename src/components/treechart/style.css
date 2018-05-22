@@ -1,0 +1,38 @@
+#treeWrapper {
+  display: block;
+  height: 800px;
+  width: 100%;
+  margin: 0 auto; }
+
+.label {
+  display: block;
+  height: 165px;
+  width: 120px;
+  border-radius: 4px;
+  background-color: #efefef;
+  border: solid 1px #cdcdcd;
+  color: #4a4a4a; }
+
+.label:hover {
+  background-color: #ffffe4;
+  border-color: #ecc777; }
+
+.label img {
+  height: 50px;
+  width: 50px;
+  z-index: 5;
+  border: solid 1px #cdcdcd;
+  margin-top: 10px; }
+
+.linkBase {
+  stroke: #cdcdcd; }
+
+h6, p {
+  max-width: 119px;
+  white-space: normal;
+  overflow: hidden; }
+
+p {
+  overflow: hidden;
+  color: #555;
+  text-overflow: ellipsis; }

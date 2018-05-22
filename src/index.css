@@ -1,0 +1,199 @@
+.list-email-container :global .module-container-wrapper {
+  padding: 25px;
+  background: #fff;
+  border: 1px solid #d6d6d6;
+  margin-bottom: 50px;
+  display: grid;
+  color: #4a4a4a; }
+
+.list-email-container :global .module-title-wrapper {
+  font-size: 24px;
+  font-weight: 500;
+  text-align: left;
+  color: #262261;
+  padding-bottom: 20px; }
+
+.list-email-container :global .align-top {
+  vertical-align: top !important; }
+
+.list-email-container :global .toggle-wrapper {
+  grid-column: 5; }
+
+.list-email-container :global .toggle {
+  vertical-align: middle;
+  float: right; }
+
+.list-email-container :global .toggle button {
+  border-radius: 0;
+  font-size: 14px; }
+
+.list-email-container :global .btn-primary {
+  background-color: #0099db;
+  border-color: #0099db;
+  color: white; }
+
+.list-email-container :global .btn-primary:hover {
+  background-color: #007db3;
+  border-color: #007db3; }
+
+.list-email-container :global .filter-bar {
+  display: grid;
+  grid-template-rows: 1;
+  grid-template-columns: 5;
+  padding-top: 20px;
+  height: 80px;
+  width: 100%;
+  float: left; }
+
+.list-email-container :global #template-filter {
+  grid-column: 1;
+  float: left;
+  width: 200px !important;
+  display: inline-block; }
+
+.list-email-container :global #survey-filter {
+  grid-column: 2;
+  float: right;
+  width: 200px !important;
+  display: inline-block; }
+
+.list-email-container :global .date-filter {
+  grid-column: 3; }
+
+.list-email-container :global .Select {
+  display: inline-block; }
+
+.list-email-container :global .Select-input {
+  margin-right: 30px; }
+
+.list-email-container :global .Select-placeholder {
+  width: 200px;
+  margin: 0; }
+
+.list-email-container :global .clear {
+  grid-column: 4;
+  display: inline-block;
+  vertical-align: middle;
+  height: 35px;
+  float: left;
+  margin: 0 auto;
+  top: 150px; }
+
+.list-email-container :global .num {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  color: #4a4a4a;
+  text-align: center;
+  padding-bottom: 17px; }
+
+.list-email-container :global .create-email-form {
+  font-size: 14px;
+  text-align: left;
+  padding: 30px; }
+
+.list-email-container :global .content-title {
+  font-weight: bold;
+  color: #919192;
+  padding-bottom: 20px; }
+
+.list-email-container :global .filter-result {
+  padding-bottom: 20px; }
+
+.list-email-container :global .filter-result-span {
+  font-weight: 500;
+  color: #919192;
+  padding-right: 25px; }
+
+.list-email-container :global .email-select-filter {
+  font-weight: 500;
+  color: #919192;
+  padding-right: 25px;
+  width: 491px;
+  border-radius: 2px;
+  background-color: #fff;
+  border: solid 1px #dedede; }
+
+.list-email-container :global .email-template-section {
+  padding: 25px 0; }
+
+.list-email-container :global .email-reason-section {
+  padding-bottom: 25px; }
+
+.list-email-container :global .day-select-check {
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: #4990e2; }
+
+.list-email-container :global .day-select-section .text1 {
+  color: #666666; }
+
+.list-email-container :global .day-select-section .text2 {
+  font-weight: 500;
+  color: #919192; }
+
+.list-email-container :global .day-select {
+  width: 45px;
+  background-color: #fff;
+  border: solid 1px #dedede;
+  display: initial;
+  margin-left: 15px; }
+
+.list-email-container :global .preview-email-section {
+  font-weight: bold;
+  color: #0099db;
+  padding-bottom: 30px;
+  border-bottom: solid 1px #eaeaea; }
+
+.list-email-container :global .send-email-button {
+  width: 221.9px; }
+
+.list-email-container :global .button-email-section {
+  padding: 45px 0; }
+
+.list-email-container :global .button-email-wrapper {
+  padding-top: 20px; }
+
+.list-email-container :global .preview-email-template-modal {
+  margin: 25% auto; }
+
+.list-email-container :global .preview-email-template-modal-btn {
+  width: 120px; }
+
+.list-email-container :global .preview-email-subject {
+  font-weight: bold; }
+
+.list-email-container :global .default-hide {
+  display: none; }
+
+.list-email-container :global .list-email-th {
+  padding: 8px;
+  color: #333333;
+  font-weight: 600 !important; }
+
+.list-email-container :global .cell-data {
+  font-size: 12px; }
+
+.list-email-container :global .create-email-title {
+  font-size: 24px;
+  font-weight: 500;
+  text-align: left;
+  color: #262261;
+  padding: 20px 150px;
+  margin: 0; }
+
+.list-email-container :global .day-select-section {
+  padding-bottom: 25px; }
+
+.date-wrapper :global .input-mini {
+  padding: 0 6px 0 28px; }
+
+.date-wrapper :global .date-ranger-picker-wrapper .daterangepicker.show-calendar {
+  min-width: 664px; }
+
+.date-wrapper :global .date-ranger-picker-wrapper .calendar-button .glyphicon {
+  padding-right: 10px; }
+
+.date-wrapper :global .date-ranger-picker-wrapper .calendar-button strong {
+  padding-left: 10px;
+  padding-right: 10px; }
