@@ -153,21 +153,25 @@ const treeData = [
 ];
 const nodeX = 120;
 const nodeY = 200;
+const isChrome = !!window.chrome && !!window.chrome.webstore;
+const isFirefox = typeof InstallTrigger !== 'undefined';
 
 //edge fix
-void (new MutationObserver((muts) => {
- for(var i = muts.length; i--;) {
-  var mut = muts[i], objs = mut.target.querySelectorAll('foreignObject');
-  for(var j = objs.length; j--;) {
-   var obj = objs[j];
-   var val = obj.style.display;
-   obj.style.display = 'none';
-   obj.getBBox();
-   obj.style.display = val;
-  }
- }
-})
-.observe(document.documentElement, { attributes: true, attributeFilter: ['transform'], subtree: true }));
+if(!isFirefox){
+  void (new MutationObserver((muts) => {
+   for(var i = muts.length; i--;) {
+    var mut = muts[i], objs = mut.target.querySelectorAll('foreignObject');
+    for(var j = objs.length; j--;) {
+     var obj = objs[j];
+     var val = obj.style.display;
+     obj.style.display = 'none';
+     obj.getBBox();
+     obj.style.display = val;
+    }
+   }
+  })
+  .observe(document.documentElement, { attributes: true, attributeFilter: ['transform'], subtree: true }));
+}
 
 class TreeChart extends Component {
   constructor(props){
@@ -186,10 +190,25 @@ class TreeChart extends Component {
   }
 
   path(linkData, orientation){
-    return (
+    if (isChrome) {
+      return (
       svg.diagonal()
         .source((d) => {
-            return {x: d.source.x+(nodeX/2), y: d.source.y+(nodeY-40)}; //nodesize
+            return {x: d.source.x, y: d.source.y+nodeY}; //nodesize
+        })
+        .target((d) => {
+            return {x: d.target.x, y: d.target.y+(nodeY/4)}; //50
+        })
+        .projection((s) => {
+            return [s.x, s.y + ((nodeY+(nodeY/8) )/ 2)];
+        })
+      )
+    }
+    else {
+      return (
+      svg.diagonal()
+        .source((d) => {
+            return {x: d.source.x+(nodeX/2), y: d.source.y+(nodeY-37)}; //nodesize
         })
         .target((d) => {
             return {x: d.target.x+(nodeX/2), y: d.target.y}; //50
@@ -198,6 +217,8 @@ class TreeChart extends Component {
             return [s.x, s.y ];
         })
       )
+    }
+    
   }
 
   
