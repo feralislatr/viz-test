@@ -155,6 +155,7 @@ const nodeX = 120;
 const nodeY = 200;
 const isChrome = !!window.chrome && !!window.chrome.webstore;
 const isFirefox = typeof InstallTrigger !== 'undefined';
+const isIE = /*@cc_on!@*/false || !!document.documentMode;
 
 //edge fix
 if(!isFirefox){
@@ -221,9 +222,57 @@ class TreeChart extends Component {
     
   }
 
-  
+
   render(){
-    return (
+    if (isIE){
+      const rectangle = {
+        shape: 'rect',
+        shapeProps: {
+          width: 120,
+          height: 165,
+          x: -10,
+          y: -10,
+          rx: 4,
+          ry: 4,
+          fill: '#efefef',
+          stroke: '#cdcdcd',
+        }
+      }
+      const textLayout ={
+        textAnchor: "start", 
+        x: 10, 
+        y: 10, 
+        transform: undefined
+
+      }
+      return (
+      <div id="treeWrapper" ref={wrap => (this.treeWrapper = wrap)}>
+        <Tree 
+          data={treeData}
+          textLayout={textLayout}
+          initialDepth={1}
+          translate={this.state.translate}
+          orientation="vertical"
+          // allowForeignObjects
+          nodeSvgShape={rectangle}
+          nodeSize={{x: nodeX+10, y: nodeY}}
+          pathFunc={this.path(treeData, "horizontal")}
+          // nodeLabelComponent={{
+          //   render: <NodeLabel className='label' />,
+          //   foreignObjectWrapper: {
+          //     style: {
+          //       x: (nodeX/2)*-1,
+          //       y: 150
+          //     }
+          //   }
+          // }}
+        />
+        
+      </div>
+    );
+
+    } else{
+      return (
       <div id="treeWrapper" ref={wrap => (this.treeWrapper = wrap)}>
         <Tree 
           data={treeData}
@@ -249,6 +298,9 @@ class TreeChart extends Component {
       </svg>
       </div>
     );
+
+    }
+    
   }
 
 }

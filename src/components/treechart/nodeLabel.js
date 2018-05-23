@@ -17,6 +17,7 @@ class NodeLabel extends React.PureComponent {
         </Dotdotdot>
         <p>{nodeData.attributes.role}</p>
         <p>{nodeData.attributes.members}</p>
+      
       </div>
     );
   }
