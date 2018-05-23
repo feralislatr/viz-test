@@ -151,14 +151,15 @@ const treeData = [
     ],
   },
 ];
-const nodeX = 120;
-const nodeY = 200;
 const isChrome = !!window.chrome && !!window.chrome.webstore;
-const isFirefox = typeof InstallTrigger !== 'undefined';
 const isIE = /*@cc_on!@*/false || !!document.documentMode;
+const isEdge = !isIE && !!window.StyleMedia;
+
+const nodeX = isIE ? 350 : 120;
+const nodeY = 200;
 
 //edge fix
-if(!isFirefox){
+if(isEdge){
   void (new MutationObserver((muts) => {
    for(var i = muts.length; i--;) {
     var mut = muts[i], objs = mut.target.querySelectorAll('foreignObject');
@@ -205,6 +206,20 @@ class TreeChart extends Component {
         })
       )
     }
+    else if (isIE) {
+      return (
+      svg.diagonal()
+        .source((d) => {
+            return {x: d.source.x+50, y: d.source.y+(nodeX-60)}; //nodesize
+        })
+        .target((d) => {
+            return {x: d.target.x+50, y: d.target.y}; //50
+        })
+        .projection((s) => {
+            return [s.y, s.x ];
+        })
+      )
+    }
     else {
       return (
       svg.diagonal()
@@ -228,7 +243,7 @@ class TreeChart extends Component {
       const rectangle = {
         shape: 'rect',
         shapeProps: {
-          width: 120,
+          width: nodeX-50,
           height: 165,
           x: -10,
           y: -10,
@@ -240,9 +255,10 @@ class TreeChart extends Component {
       }
       const textLayout ={
         textAnchor: "start", 
-        x: 10, 
+        x: 0, 
         y: 10, 
-        transform: undefined
+        transform: undefined,
+        textLength: 120
 
       }
       return (
@@ -252,20 +268,10 @@ class TreeChart extends Component {
           textLayout={textLayout}
           initialDepth={1}
           translate={this.state.translate}
-          orientation="vertical"
-          // allowForeignObjects
+          orientation="horizontal"
           nodeSvgShape={rectangle}
           nodeSize={{x: nodeX+10, y: nodeY}}
           pathFunc={this.path(treeData, "horizontal")}
-          // nodeLabelComponent={{
-          //   render: <NodeLabel className='label' />,
-          //   foreignObjectWrapper: {
-          //     style: {
-          //       x: (nodeX/2)*-1,
-          //       y: 150
-          //     }
-          //   }
-          // }}
         />
         
       </div>
