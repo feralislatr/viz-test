@@ -3,6 +3,7 @@ import Tree from 'react-d3-tree';
 import style from './style.css';
 import NodeLabel from './nodeLabel';
 import { svg } from 'react-d3-tree/node_modules/d3';
+import ReactDOM from 'react-dom';
 
 const treeData = [
   {
@@ -154,6 +155,7 @@ const treeData = [
 const isChrome = !!window.chrome && !!window.chrome.webstore;
 const isIE = /*@cc_on!@*/false || !!document.documentMode;
 const isEdge = !isIE && !!window.StyleMedia;
+// const isFirefox = typeof InstallTrigger !== 'undefined';
 
 const nodeX = isIE ? 350 : 120;
 const nodeY = 200;
@@ -189,6 +191,17 @@ class TreeChart extends Component {
         y: 0
       },
     });
+    let nodeNames = this.treeWrapper.querySelectorAll('.nodeNameBase')
+    // nodeNames.forEach(node =>{
+    //   node.setAttribute("textLength", 20)
+    // })
+    for(let i=0; i<nodeNames.length; i+=1){
+      nodeNames[i].setAttribute("textLength", 100)
+    }
+  }
+
+  componentWillUnmount() {
+      // ReactDOM.unmountComponentAtNoe(this.treeWrapper);
   }
 
   path(linkData, orientation){
@@ -238,7 +251,9 @@ class TreeChart extends Component {
   }
 
 
+
   render(){
+    
     if (isIE){
       const rectangle = {
         shape: 'rect',
@@ -258,8 +273,6 @@ class TreeChart extends Component {
         x: 0, 
         y: 10, 
         transform: undefined,
-        textLength: 120
-
       }
       return (
       <div id="treeWrapper" ref={wrap => (this.treeWrapper = wrap)}>
@@ -275,6 +288,7 @@ class TreeChart extends Component {
         />
         
       </div>
+
     );
 
     } else{
@@ -299,9 +313,6 @@ class TreeChart extends Component {
             }
           }}
         />
-        <svg className="test">
-        <rect x="120" y="165" rx="4" ry="4"/>
-      </svg>
       </div>
     );
 

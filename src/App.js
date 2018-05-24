@@ -5,13 +5,12 @@ import './App.css';
 // import HorizontalChart from './components/horizontalchart';
 // import LineChart from './components/linechart';
 import { Col, FormGroup, ControlLabel, Button, Glyphicon } from 'react-bootstrap';
-// import DateRangePicker from './components/dateRangePicker';
-// import SpaceTree from './components/spacetree';
 import TreeChart from './components/treechart';
 import styles from './index.scss';
 
-
 class App extends Component {
+
+  
   render() {
     return (
       <div className="App">

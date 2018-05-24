@@ -34,8 +34,6 @@ h6, p {
 p {
   overflow: hidden;
   color: #555;
-  text-overflow: ellipsis; }
+  text-overflow: ellipsis;
+}
 
-  .nodeNameBase{
-    max-width: 120px;
-  }
