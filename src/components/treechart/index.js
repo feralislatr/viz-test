@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Tree from 'react-d3-tree';
-import style from './style.css';
+import './style.css';
 import NodeLabel from './nodeLabel';
 import { svg } from 'react-d3-tree/node_modules/d3';
 import ReactDOM from 'react-dom';
@@ -191,14 +191,21 @@ class TreeChart extends Component {
         y: 0
       },
     });
-    let nodeNames = this.treeWrapper.querySelectorAll('.nodeNameBase')
-    // nodeNames.forEach(node =>{
-    //   node.setAttribute("textLength", 20)
-    // })
+    let nodeNames = this.treeWrapper.getElementsByClassName('nodeNameBase')
     for(let i=0; i<nodeNames.length; i+=1){
-      nodeNames[i].setAttribute("textLength", 100)
+      let textlength = nodeNames[i].getComputedTextLength();
+      let text = nodeNames[i].textContent;
+      if (textlength > 30) {
+        text = text.slice(0, 30);
+        nodeNames[i].textContent = text;
+
+       }
     }
   }
+
+  // shouldComponentUpdate() {
+  //   return false;
+  // }
 
   componentWillUnmount() {
       // ReactDOM.unmountComponentAtNoe(this.treeWrapper);

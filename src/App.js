@@ -4,9 +4,8 @@ import './App.css';
 // import Barchart from './components/barchart';
 // import HorizontalChart from './components/horizontalchart';
 // import LineChart from './components/linechart';
-import { Col, FormGroup, ControlLabel, Button, Glyphicon } from 'react-bootstrap';
 import TreeChart from './components/treechart';
-import styles from './index.scss';
+import './index.css';
 
 class App extends Component {
 
