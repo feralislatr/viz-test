@@ -3,42 +3,41 @@ import Tree from 'react-d3-tree';
 import './style.css';
 import NodeLabel from './nodeLabel';
 import { svg } from 'react-d3-tree/node_modules/d3';
-import ReactDOM from 'react-dom';
 
 const treeData = [
   {
     name: 'NIH',
     attributes: {
       role: 'Program Lead',
-      members: '31,889',
+      participants: '31,889',
     },
     children: [
       {
         name: 'California Precision Medicine',
         attributes: {
           role: 'Awardee',
-          members: '4,889',
+          participants: '4,889',
         },
         children: [
           {
             name: 'San Diego Blood Bank',
             attributes: {
               role: 'Organization',
-              members: '15,889',
+              participants: '15,889',
             },
           },
           {
             name: '4San Diego Blood Bank',
             attributes: {
               role: 'Organization',
-              members: '15,889',
+              participants: '15,889',
             },
           },
           {
             name: '5San Diego Blood Bank',
             attributes: {
               role: 'Organization',
-              members: '15,889',
+              participants: '15,889',
             },
           },
         ],
@@ -47,28 +46,28 @@ const treeData = [
         name: 'Trans-American Consortium for the Health Care Systems Research Network',
         attributes: {
           role: 'Awardee',
-          members: '4,889',
+          participants: '4,889',
         },
         children: [
           {
             name: '6San Diego Blood Bank',
             attributes: {
               role: 'Organization',
-              members: '15,889',
+              participants: '15,889',
             },
           },
           {
             name: '7San Diego Blood Bank',
             attributes: {
               role: 'Organization',
-              members: '15,889',
+              participants: '15,889',
             },
           },
           {
             name: '8San Diego Blood Bank',
             attributes: {
               role: 'Organization',
-              members: '15,889',
+              participants: '15,889',
             },
           },
         ],
@@ -77,28 +76,28 @@ const treeData = [
         name: '3California Precision Medicine',
         attributes: {
           role: 'Awardee',
-          members: '4,889',
+          participants: '4,889',
         },
         children: [
           {
             name: '9San Diego Blood Bank',
             attributes: {
               role: 'Organization',
-              members: '15,889',
+              participants: '15,889',
             },
           },
           {
             name: '10San Diego Blood Bank',
             attributes: {
               role: 'Organization',
-              members: '15,889',
+              participants: '15,889',
             },
           },
           {
             name: '11San Diego Blood Bank',
             attributes: {
               role: 'Organization',
-              members: '15,889',
+              participants: '15,889',
             },
           },
         ],
@@ -107,28 +106,28 @@ const treeData = [
         name: 'New England Precision Medicine',
         attributes: {
           role: 'Awardee',
-          members: '3,780',
+          participants: '3,780',
         },
       },
       {
         name: '2New England Precision Medicine',
         attributes: {
           role: 'Awardee',
-          members: '3,780',
+          participants: '3,780',
         },
         children: [
           {
             name: '2San Diego Blood Bank',
             attributes: {
               role: 'Organization',
-              members: '15,889',
+              participants: '15,889',
             },
             children: [
               {
                 name: '3San Diego Blood Bank',
                 attributes: {
                   role: 'Organization',
-                  members: '15,889',
+                  participants: '15,889',
                 },
               },
             ],
@@ -139,14 +138,14 @@ const treeData = [
         name: '3New England Precision Medicine',
         attributes: {
           role: 'Awardee',
-          members: '3,780',
+          participants: '3,780',
         },
       },
       {
         name: '4New England Precision Medicine',
         attributes: {
           role: 'Awardee',
-          members: '3,780',
+          participants: '3,780',
         },
       },
     ],
@@ -157,7 +156,7 @@ const isIE = /*@cc_on!@*/false || !!document.documentMode;
 const isEdge = !isIE && !!window.StyleMedia;
 // const isFirefox = typeof InstallTrigger !== 'undefined';
 
-const nodeX = isIE ? 350 : 120;
+const nodeX = isIE ? 130 : 120;
 const nodeY = 200;
 
 //edge fix
@@ -181,9 +180,11 @@ class TreeChart extends Component {
   constructor(props){
     super(props);
     this.state= { x: 500, y: 100};
+    this.truncateNodeName=this.truncateNodeName.bind(this);
+    this.modifyAttributeText=this.modifyAttributeText.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const dimensions = this.treeWrapper.getBoundingClientRect();
     this.setState({
       translate: {
@@ -191,25 +192,41 @@ class TreeChart extends Component {
         y: 0
       },
     });
-    let nodeNames = this.treeWrapper.getElementsByClassName('nodeNameBase')
-    for(let i=0; i<nodeNames.length; i+=1){
-      let textlength = nodeNames[i].getComputedTextLength();
-      let text = nodeNames[i].textContent;
-      if (textlength > 30) {
-        text = text.slice(0, 30);
-        nodeNames[i].textContent = text;
-
-       }
+    if (isIE) {
+      this.truncateNodeName();
+      this.modifyAttributeText();
     }
   }
 
-  // shouldComponentUpdate() {
-  //   return false;
-  // }
-
-  componentWillUnmount() {
-      // ReactDOM.unmountComponentAtNoe(this.treeWrapper);
+  truncateNodeName( ){
+    let maxTextLength = 14;
+    let nodeNames = this.treeWrapper.getElementsByClassName('nodeNameBase');
+    for(let i=0; i<nodeNames.length; i+=1){
+      let textlength = nodeNames[i].textContent.length;
+      let text = nodeNames[i].textContent;
+      // nodeNames[i].setAttribute("title", text);
+      if (textlength > maxTextLength) {
+        text = text.slice(0, maxTextLength);
+        nodeNames[i].textContent = text+'...';
+      }
+    }
   }
+
+  modifyAttributeText() {
+    let attributes = this.treeWrapper.getElementsByTagName('tspan');
+    let newText;
+    for (let i=0; i<attributes.length; i+=1) {
+      let attrText = attributes[i].textContent;
+      if(attrText.match(/^role/)) {
+        newText = attrText.slice(6, attrText.length);
+        attributes[i].textContent = newText;
+      } else if (attrText.match(/^participants/)) {
+          newText = attrText.slice(8 , attrText.length);
+          attributes[i].textContent = newText;
+      }
+    }
+  }
+
 
   path(linkData, orientation){
     if (isChrome) {
@@ -230,13 +247,13 @@ class TreeChart extends Component {
       return (
       svg.diagonal()
         .source((d) => {
-            return {x: d.source.x+50, y: d.source.y+(nodeX-60)}; //nodesize
+            return {x: d.source.x+55, y: d.source.y+(nodeY-45)}; //nodesize
         })
         .target((d) => {
-            return {x: d.target.x+50, y: d.target.y}; //50
+            return {x: d.target.x+55, y: d.target.y}; //50
         })
         .projection((s) => {
-            return [s.y, s.x ];
+            return [s.x, s.y ];
         })
       )
     }
@@ -257,15 +274,12 @@ class TreeChart extends Component {
     
   }
 
-
-
   render(){
-    
     if (isIE){
       const rectangle = {
         shape: 'rect',
         shapeProps: {
-          width: nodeX-50,
+          width: nodeX,
           height: 165,
           x: -10,
           y: -10,
@@ -277,27 +291,25 @@ class TreeChart extends Component {
       }
       const textLayout ={
         textAnchor: "start", 
-        x: 0, 
+        x: -2, 
         y: 10, 
         transform: undefined,
       }
       return (
       <div id="treeWrapper" ref={wrap => (this.treeWrapper = wrap)}>
         <Tree 
+          onClick={() => this.truncateNodeName()}
           data={treeData}
           textLayout={textLayout}
           initialDepth={1}
           translate={this.state.translate}
-          orientation="horizontal"
+          orientation="vertical"
           nodeSvgShape={rectangle}
           nodeSize={{x: nodeX+10, y: nodeY}}
           pathFunc={this.path(treeData, "horizontal")}
         />
-        
       </div>
-
     );
-
     } else{
       return (
       <div id="treeWrapper" ref={wrap => (this.treeWrapper = wrap)}>
@@ -322,11 +334,8 @@ class TreeChart extends Component {
         />
       </div>
     );
-
     }
-    
   }
-
 }
 
 export default TreeChart;
