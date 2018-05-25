@@ -17,11 +17,6 @@
   // margin-left: -50px;
 }
 
-.label:hover{
-  background-color: #ffffe4;
-  border-color: #ecc777;
-}
-
 .label img{
   height: 50px;
   width: 50px;
@@ -49,4 +44,9 @@ p{
 
 .nodeBaseName{
   text-overflow:ellipsis
+}
+
+.active{
+  background-color: #ffffe4;
+  border-color: #ecc777;
 }

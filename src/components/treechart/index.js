@@ -183,6 +183,7 @@ class TreeChart extends Component {
     this.truncateNodeName=this.truncateNodeName.bind(this);
     this.modifyAttributeText=this.modifyAttributeText.bind(this);
     this.handleActiveNode=this.handleActiveNode.bind(this);
+    this.highlightActiveNode=this.highlightActiveNode.bind(this);
   }
 
   // tree = node => this.treeRef = node;
@@ -201,7 +202,8 @@ class TreeChart extends Component {
     }
   }
 
-  truncateNodeName( ){
+  truncateNodeName(){
+    console.log(this.treeWrapper)
     let maxTextLength = 14;
     let nodeNames = this.treeWrapper.getElementsByClassName('nodeNameBase');
     for(let i=0; i<nodeNames.length; i+=1){
@@ -230,7 +232,19 @@ class TreeChart extends Component {
     }
   }
 
+  highlightActiveNode(id){
+    if (!id) return;
+    let nodes = Array.from(this.treeWrapper.getElementsByClassName('nodeBase')) // also leafNodeBase
+    console.log('n o d e s',nodes)
+    // nodes is html collection. turn into array
+    let currNode = nodes.filter(node => node.getAttribute('id') == id) //node 
+    console.log(currNode)
+    currNode[0].childNodes[0].childNodes[0].classList.add('active');
+  }
+
   handleActiveNode(nodeObj, cont) {
+    this.highlightActiveNode(nodeObj.id)
+    // nodeclasses.add("active");
     if(!cont || nodeObj._collapsed) {
       return;
     }
@@ -242,7 +256,7 @@ class TreeChart extends Component {
         if(!node._collapsed){
           console.log("to collapse", node)
           // ====too much recursion====
-          tree.handleNodeToggle(node.id, false);
+          // tree.handleNodeToggle(node.id, false);
         }
       });
     }
@@ -294,6 +308,7 @@ class TreeChart extends Component {
     
   }
 
+
   render(){
     if (isIE){
       const rectangle = {
@@ -335,7 +350,7 @@ class TreeChart extends Component {
       <div id="treeWrapper" ref={node => (this.treeWrapper = node)}>
         <Tree
           ref={node => this.tree = node}
-          // onClick={(nodeObj) => this.handleActiveNode(nodeObj, true)}
+          onClick={(nodeObj) => this.handleActiveNode(nodeObj, true)}
           data={treeData}
           initialDepth={1}
           translate={this.state.translate}
