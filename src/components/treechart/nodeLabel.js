@@ -8,11 +8,11 @@ class NodeLabel extends React.PureComponent {
     super(props);
   }
   render() {
-    const {className, nodeData} = this.props;
+    const {className, nodeData, isChrome} = this.props;
     return (
       <div className={className}>
         <img src={img} />
-        <Dotdotdot clamp={2}> 
+        <Dotdotdot clamp={ isChrome ? 2 : 3 }> 
           <h6 title={nodeData.name}>{nodeData.name}</h6>
         </Dotdotdot>
         <p>{nodeData.attributes.role}</p>

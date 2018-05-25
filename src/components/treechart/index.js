@@ -182,7 +182,10 @@ class TreeChart extends Component {
     this.state= { x: 500, y: 100};
     this.truncateNodeName=this.truncateNodeName.bind(this);
     this.modifyAttributeText=this.modifyAttributeText.bind(this);
+    this.handleActiveNode=this.handleActiveNode.bind(this);
   }
+
+  // tree = node => this.treeRef = node;
 
   componentDidMount() {
     const dimensions = this.treeWrapper.getBoundingClientRect();
@@ -227,16 +230,33 @@ class TreeChart extends Component {
     }
   }
 
+  handleActiveNode(nodeObj, cont) {
+    if(!cont || nodeObj._collapsed) {
+      return;
+    }
+    const tree = this.tree;
+    const parentObj = nodeObj.parent;
+    if(parentObj && tree) {
+      const nodesToBeCollapsed = parentObj.children.filter(c=> c.id !== nodeObj.id);
+      nodesToBeCollapsed.map((node,index) => {
+        if(!node._collapsed){
+          console.log("to collapse", node)
+          // ====too much recursion====
+          tree.handleNodeToggle(node.id, false);
+        }
+      });
+    }
+  }
 
   path(linkData, orientation){
     if (isChrome) {
       return (
       svg.diagonal()
         .source((d) => {
-            return {x: d.source.x, y: d.source.y+nodeY}; //nodesize
+            return {x: d.source.x-5, y: d.source.y+nodeY+3}; //nodesize
         })
         .target((d) => {
-            return {x: d.target.x, y: d.target.y+(nodeY/4)}; //50
+            return {x: d.target.x-5, y: d.target.y+(nodeY/4)-12}; //50
         })
         .projection((s) => {
             return [s.x, s.y + ((nodeY+(nodeY/8) )/ 2)];
@@ -247,10 +267,10 @@ class TreeChart extends Component {
       return (
       svg.diagonal()
         .source((d) => {
-            return {x: d.source.x+55, y: d.source.y+(nodeY-45)}; //nodesize
+            return {x: d.source.x+55, y: d.source.y+(nodeY-44)}; //nodesize
         })
         .target((d) => {
-            return {x: d.target.x+55, y: d.target.y}; //50
+            return {x: d.target.x+55, y: d.target.y-10}; //50
         })
         .projection((s) => {
             return [s.x, s.y ];
@@ -261,10 +281,10 @@ class TreeChart extends Component {
       return (
       svg.diagonal()
         .source((d) => {
-            return {x: d.source.x+(nodeX/2), y: d.source.y+(nodeY-37)}; //nodesize
+            return {x: d.source.x+(nodeX/2)-5, y: d.source.y+(nodeY-35)}; //nodesize
         })
         .target((d) => {
-            return {x: d.target.x+(nodeX/2), y: d.target.y}; //50
+            return {x: d.target.x+(nodeX/2)-5, y: d.target.y}; //50
         })
         .projection((s) => {
             return [s.x, s.y ];
@@ -312,8 +332,10 @@ class TreeChart extends Component {
     );
     } else{
       return (
-      <div id="treeWrapper" ref={wrap => (this.treeWrapper = wrap)}>
-        <Tree 
+      <div id="treeWrapper" ref={node => (this.treeWrapper = node)}>
+        <Tree
+          ref={node => this.tree = node}
+          // onClick={(nodeObj) => this.handleActiveNode(nodeObj, true)}
           data={treeData}
           initialDepth={1}
           translate={this.state.translate}
@@ -323,7 +345,7 @@ class TreeChart extends Component {
           nodeSize={{x: nodeX+10, y: nodeY}}
           pathFunc={this.path(treeData, "horizontal")}
           nodeLabelComponent={{
-            render: <NodeLabel className='label' />,
+            render: <NodeLabel className='label' isChrome={isChrome} />,
             foreignObjectWrapper: {
               style: {
                 x: (nodeX/2)*-1,
