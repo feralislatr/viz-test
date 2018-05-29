@@ -203,7 +203,6 @@ class TreeChart extends Component {
   }
 
   truncateNodeName(){
-    console.log(this.treeWrapper)
     let maxTextLength = 14;
     let nodeNames = this.treeWrapper.getElementsByClassName('nodeNameBase');
     for(let i=0; i<nodeNames.length; i+=1){
@@ -231,19 +230,67 @@ class TreeChart extends Component {
       }
     }
   }
-
-  highlightActiveNode(id){
-    if (!id) return;
-    let nodes = Array.from(this.treeWrapper.getElementsByClassName('nodeBase')) // also leafNodeBase
-    console.log('n o d e s',nodes)
-    // nodes is html collection. turn into array
-    let currNode = nodes.filter(node => node.getAttribute('id') == id) //node 
-    console.log(currNode)
-    currNode[0].childNodes[0].childNodes[0].classList.add('active');
+  // greedy - revisit
+  highlightActiveNode(nodeObj){
+    if (!nodeObj) return;
+    if (isIE) {
+      let nodes = Array.from(this.treeWrapper.getElementsByTagName('rect'));
+      // remove highlight
+      nodes.forEach(node => {
+        node.setAttribute('fill', '#efefef');
+        node.setAttribute('stroke', '#cdcdcd');
+      });
+      // set highlight
+      let currNode = nodes.filter(node => node.parentNode.id == nodeObj.id)[0];
+      currNode.setAttribute('fill', '#ffffe4');
+      currNode.setAttribute('stroke', '#ecc777');
+      // highlight parents
+      // let parent = nodes.filter(node => node.parentElement.getAttribute('id') == nodeObj.parent.id)[0];
+      //     parent.firstChild.classList.add('active');
+      const highlightParents = (nodeObj) => {
+        if (!nodeObj.parent) {
+          return
+        } else{
+          nodeObj = nodeObj.parent;
+          console.log(nodeObj)
+          let parent = nodes.filter(node => node.parentNode.getAttribute('id') == nodeObj.id)[0];
+          parent.setAttribute('fill', '#ffffe4');
+          parent.setAttribute('stroke', '#ecc777');
+          highlightParents(nodeObj)
+        }
+      }
+      highlightParents(nodeObj);
+    }
+    else {
+      let nodes = Array.from(this.treeWrapper.getElementsByTagName('foreignObject'));
+      // remove highlight
+      nodes.forEach(node => {
+        node.firstChild.classList.remove('active');
+      });
+      // set highlight
+      let currNode = nodes.filter(node => node.parentElement.getAttribute('id') == nodeObj.id)[0];
+      currNode.firstChild.classList.add('active');
+      // highlight parents
+      // let parent = nodes.filter(node => node.parentElement.getAttribute('id') == nodeObj.parent.id)[0];
+      //     parent.firstChild.classList.add('active');
+      const highlightParents = (nodeObj) => {
+        if (!nodeObj.parent) {
+          return
+        } else{
+          nodeObj = nodeObj.parent;
+          console.log(nodeObj)
+          let parent = nodes.filter(node => node.parentElement.getAttribute('id') == nodeObj.id)[0];
+          parent.firstChild.classList.add('active');
+          highlightParents(nodeObj)
+        }
+      }
+      highlightParents(nodeObj);
+    }
   }
 
   handleActiveNode(nodeObj, cont) {
-    this.highlightActiveNode(nodeObj.id)
+    if(isIE) this.truncateNodeName();
+    this.highlightActiveNode(nodeObj)
     // nodeclasses.add("active");
     if(!cont || nodeObj._collapsed) {
       return;
@@ -333,7 +380,8 @@ class TreeChart extends Component {
       return (
       <div id="treeWrapper" ref={wrap => (this.treeWrapper = wrap)}>
         <Tree 
-          onClick={() => this.truncateNodeName()}
+          ref={node => this.tree = node}
+          onClick={(nodeObj) => this.handleActiveNode(nodeObj, true)}
           data={treeData}
           textLayout={textLayout}
           initialDepth={1}
