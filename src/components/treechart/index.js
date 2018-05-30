@@ -6,97 +6,97 @@ import { svg } from 'react-d3-tree/node_modules/d3';
 
 const treeData = [
   {
-    name: 'NIH',
+    name: 'ABC',
     attributes: {
-      role: 'Program Lead',
+      role: 'Lead',
       participants: '31,889',
     },
     children: [
       {
-        name: 'California Precision Medicine',
+        name: 'Save Us From the Archon',
         attributes: {
-          role: 'Awardee',
+          role: 'Band',
           participants: '4,889',
         },
         children: [
           {
-            name: 'San Diego Blood Bank',
+            name: 'Animals as Leaders',
             attributes: {
-              role: 'Organization',
+              role: 'AnotherBand',
               participants: '15,889',
             },
           },
           {
-            name: '4San Diego Blood Bank',
+            name: '4Animals as Leaders',
             attributes: {
-              role: 'Organization',
+              role: 'AnotherBand',
               participants: '15,889',
             },
           },
           {
-            name: '5San Diego Blood Bank',
+            name: '5Animals as Leaders',
             attributes: {
-              role: 'Organization',
+              role: 'AnotherBand',
               participants: '15,889',
             },
           },
         ],
       },
       {
-        name: 'Trans-American Consortium for the Health Care Systems Research Network',
+        name: 'Set Course For Andromeda - The Andromedan Pt IV: The Darkness Within',
         attributes: {
-          role: 'Awardee',
+          role: 'Long Title',
           participants: '4,889',
         },
         children: [
           {
-            name: '6San Diego Blood Bank',
+            name: '6Animals as Leaders',
             attributes: {
-              role: 'Organization',
+              role: 'AnotherBand',
               participants: '15,889',
             },
           },
           {
-            name: '7San Diego Blood Bank',
+            name: '7Animals as Leaders',
             attributes: {
-              role: 'Organization',
+              role: 'AnotherBand',
               participants: '15,889',
             },
           },
           {
-            name: '8San Diego Blood Bank',
+            name: '8Animals as Leaders',
             attributes: {
-              role: 'Organization',
+              role: 'AnotherBand',
               participants: '15,889',
             },
           },
         ],
       },
       {
-        name: '3California Precision Medicine',
+        name: '3Save Us From the Archon',
         attributes: {
-          role: 'Awardee',
+          role: 'Band',
           participants: '4,889',
         },
         children: [
           {
-            name: '9San Diego Blood Bank',
+            name: '9Animals as Leaders',
             attributes: {
-              role: 'Organization',
+              role: 'AnotherBand',
               participants: '15,889',
             },
           },
           {
-            name: '10San Diego Blood Bank',
+            name: '10Animals as Leaders',
             attributes: {
-              role: 'Organization',
+              role: 'AnotherBand',
               participants: '15,889',
             },
           },
           {
-            name: '11San Diego Blood Bank',
+            name: '11Animals as Leaders',
             attributes: {
-              role: 'Organization',
+              role: 'AnotherBand',
               participants: '15,889',
             },
           },
@@ -105,28 +105,28 @@ const treeData = [
       {
         name: 'New England Precision Medicine',
         attributes: {
-          role: 'Awardee',
+          role: 'Band',
           participants: '3,780',
         },
       },
       {
         name: '2New England Precision Medicine',
         attributes: {
-          role: 'Awardee',
+          role: 'Band',
           participants: '3,780',
         },
         children: [
           {
-            name: '2San Diego Blood Bank',
+            name: '2Animals as Leaders',
             attributes: {
-              role: 'Organization',
+              role: 'AnotherBand',
               participants: '15,889',
             },
             children: [
               {
-                name: '3San Diego Blood Bank',
+                name: '3Animals as Leaders',
                 attributes: {
-                  role: 'Organization',
+                  role: 'AnotherBand',
                   participants: '15,889',
                 },
               },
@@ -137,14 +137,14 @@ const treeData = [
       {
         name: '3New England Precision Medicine',
         attributes: {
-          role: 'Awardee',
+          role: 'Band',
           participants: '3,780',
         },
       },
       {
         name: '4New England Precision Medicine',
         attributes: {
-          role: 'Awardee',
+          role: 'Band',
           participants: '3,780',
         },
       },
@@ -230,7 +230,7 @@ class TreeChart extends Component {
       }
     }
   }
-  // greedy - revisit
+  
   highlightActiveNode(nodeObj){
     if (!nodeObj) return;
     if (isIE) {
@@ -244,19 +244,13 @@ class TreeChart extends Component {
       let currNode = nodes.filter(node => node.parentNode.id == nodeObj.id)[0];
       currNode.setAttribute('fill', '#ffffe4');
       currNode.setAttribute('stroke', '#ecc777');
-      // highlight parents
-      // let parent = nodes.filter(node => node.parentElement.getAttribute('id') == nodeObj.parent.id)[0];
-      //     parent.firstChild.classList.add('active');
       const highlightParents = (nodeObj) => {
-        if (!nodeObj.parent) {
-          return
-        } else{
+        while (nodeObj.parent) {
           nodeObj = nodeObj.parent;
-          console.log(nodeObj)
           let parent = nodes.filter(node => node.parentNode.getAttribute('id') == nodeObj.id)[0];
           parent.setAttribute('fill', '#ffffe4');
           parent.setAttribute('stroke', '#ecc777');
-          highlightParents(nodeObj)
+          highlightParents(nodeObj);
         }
       }
       highlightParents(nodeObj);
@@ -271,17 +265,12 @@ class TreeChart extends Component {
       let currNode = nodes.filter(node => node.parentElement.getAttribute('id') == nodeObj.id)[0];
       currNode.firstChild.classList.add('active');
       // highlight parents
-      // let parent = nodes.filter(node => node.parentElement.getAttribute('id') == nodeObj.parent.id)[0];
-      //     parent.firstChild.classList.add('active');
       const highlightParents = (nodeObj) => {
-        if (!nodeObj.parent) {
-          return
-        } else{
+        while (nodeObj.parent) {
           nodeObj = nodeObj.parent;
-          console.log(nodeObj)
           let parent = nodes.filter(node => node.parentElement.getAttribute('id') == nodeObj.id)[0];
           parent.firstChild.classList.add('active');
-          highlightParents(nodeObj)
+          highlightParents(nodeObj);
         }
       }
       highlightParents(nodeObj);
@@ -289,22 +278,33 @@ class TreeChart extends Component {
   }
 
   handleActiveNode(nodeObj, cont) {
-    if(isIE) this.truncateNodeName();
-    this.highlightActiveNode(nodeObj)
-    // nodeclasses.add("active");
-    if(!cont || nodeObj._collapsed) {
+    if (isIE) this.truncateNodeName();
+    this.highlightActiveNode(nodeObj);
+    console.log(cont)
+    if (!cont || nodeObj._collapsed) {
       return;
     }
     const tree = this.tree;
     const parentObj = nodeObj.parent;
-    if(parentObj && tree) {
-      const nodesToBeCollapsed = parentObj.children.filter(c=> c.id !== nodeObj.id);
-      nodesToBeCollapsed.map((node,index) => {
-        if(!node._collapsed){
-          console.log("to collapse", node)
-          // ====too much recursion====
-          // tree.handleNodeToggle(node.id, false);
-        }
+    if (parentObj && tree) {
+      const nodesToBeCollapsed = Array.from(parentObj.children.filter(c=> c.id !== nodeObj.id && !c._collapsed))
+      console.log('nodesToBeCollapsed ', nodesToBeCollapsed)
+      nodesToBeCollapsed.forEach((o) => {
+        console.log("to collapse ", o)
+        // const collapse = o => {
+          console.log('before ',o._collapsed)
+          // tree.collapseNode(o)
+          // tree.handleNodeToggle(o.id, e);
+          console.log('after ',o._collapsed)
+          // if (o._children && o._children.length > 0) {
+          //   o._children.forEach(child => {
+          //     collapse(child)
+          //     console.log("collapsing ", child)
+          //   })
+          // }
+        // }
+        // collapse(o)
+          // tree.handleNodeToggle(o.id, false);
       });
     }
   }
@@ -378,7 +378,7 @@ class TreeChart extends Component {
         transform: undefined,
       }
       return (
-      <div id="treeWrapper" ref={wrap => (this.treeWrapper = wrap)}>
+      <div id="treeWrapper" ref={node => (this.treeWrapper = node)}>
         <Tree 
           ref={node => this.tree = node}
           onClick={(nodeObj) => this.handleActiveNode(nodeObj, true)}
@@ -395,10 +395,10 @@ class TreeChart extends Component {
     );
     } else{
       return (
-      <div id="treeWrapper" ref={node => (this.treeWrapper = node)}>
+      <div id="treeWrapper" ref={r => this.treeWrapper = r}>
         <Tree
-          ref={node => this.tree = node}
-          onClick={(nodeObj) => this.handleActiveNode(nodeObj, true)}
+          ref={r => this.tree = r}
+          onClick={(nodeObj) => this.handleActiveNode(nodeObj,true)}
           data={treeData}
           initialDepth={1}
           translate={this.state.translate}
