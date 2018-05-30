@@ -103,16 +103,16 @@ const treeData = [
         ],
       },
       {
-        name: 'New England Precision Medicine',
+        name: 'Invent the Universe - Baryogenesis',
         attributes: {
-          role: 'Band',
+          role: 'Song',
           participants: '3,780',
         },
       },
       {
-        name: '2New England Precision Medicine',
+        name: '2Invent the Universe - Baryogenesis',
         attributes: {
-          role: 'Band',
+          role: 'Song',
           participants: '3,780',
         },
         children: [
@@ -135,16 +135,16 @@ const treeData = [
         ],
       },
       {
-        name: '3New England Precision Medicine',
+        name: '3Invent the Universe - Baryogenesis',
         attributes: {
-          role: 'Band',
+          role: 'Song',
           participants: '3,780',
         },
       },
       {
-        name: '4New England Precision Medicine',
+        name: '4Invent the Universe - Baryogenesis',
         attributes: {
-          role: 'Band',
+          role: 'Song',
           participants: '3,780',
         },
       },
@@ -186,8 +186,6 @@ class TreeChart extends Component {
     this.highlightActiveNode=this.highlightActiveNode.bind(this);
   }
 
-  // tree = node => this.treeRef = node;
-
   componentDidMount() {
     const dimensions = this.treeWrapper.getBoundingClientRect();
     this.setState({
@@ -215,7 +213,7 @@ class TreeChart extends Component {
       }
     }
   }
-
+  // WIP
   modifyAttributeText() {
     let attributes = this.treeWrapper.getElementsByTagName('tspan');
     let newText;
