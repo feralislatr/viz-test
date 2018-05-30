@@ -162,11 +162,11 @@ const nodeY = 200;
 //edge fix
 if(isEdge){
   void (new MutationObserver((muts) => {
-   for(var i = muts.length; i--;) {
-    var mut = muts[i], objs = mut.target.querySelectorAll('foreignObject');
-    for(var j = objs.length; j--;) {
-     var obj = objs[j];
-     var val = obj.style.display;
+   for(let i = muts.length; i--;) {
+    const mut = muts[i], objs = mut.target.querySelectorAll('foreignObject');
+    for(let j = objs.length; j--;) {
+     const obj = objs[j];
+     let val = obj.style.display;
      obj.style.display = 'none';
      obj.getBBox();
      obj.style.display = val;
@@ -234,7 +234,7 @@ class TreeChart extends Component {
     if (isIE) {
       let nodes = Array.from(this.treeWrapper.getElementsByTagName('rect'));
       // remove highlight
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         node.setAttribute('fill', '#efefef');
         node.setAttribute('stroke', '#cdcdcd');
       });
@@ -256,7 +256,7 @@ class TreeChart extends Component {
     else {
       let nodes = Array.from(this.treeWrapper.getElementsByTagName('foreignObject'));
       // remove highlight
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         node.firstChild.classList.remove('active');
       });
       // set highlight
