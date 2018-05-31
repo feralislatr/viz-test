@@ -257,17 +257,17 @@ class TreeChart extends Component {
       let nodes = Array.from(this.treeWrapper.getElementsByTagName('foreignObject'));
       // remove highlight
       nodes.forEach((node) => {
-        node.firstChild.classList.remove('active');
+        node.firstChild.classList.remove('activeNode');
       });
       // set highlight
       let currNode = nodes.filter(node => node.parentElement.getAttribute('id') == nodeObj.id)[0];
-      currNode.firstChild.classList.add('active');
+      currNode.firstChild.classList.add('activeNode');
       // highlight parents
       const highlightParents = (nodeObj) => {
         while (nodeObj.parent) {
           nodeObj = nodeObj.parent;
           let parent = nodes.filter(node => node.parentElement.getAttribute('id') == nodeObj.id)[0];
-          parent.firstChild.classList.add('active');
+          parent.firstChild.classList.add('activeNode');
           highlightParents(nodeObj);
         }
       }
@@ -285,26 +285,17 @@ class TreeChart extends Component {
     const tree = this.tree;
     const parentObj = nodeObj.parent;
     if (parentObj && tree) {
-      const nodesToBeCollapsed = Array.from(parentObj.children.filter(c=> c.id !== nodeObj.id && !c._collapsed))
+      const nodesToBeCollapsed = Array.from(parentObj.children.filter(c=> c.id !== nodeObj.id && !c._collapsed && c._children))
       console.log('nodesToBeCollapsed ', nodesToBeCollapsed)
       nodesToBeCollapsed.forEach((o) => {
         console.log("to collapse ", o)
-        // const collapse = o => {
-          console.log('before ',o._collapsed)
-          // tree.collapseNode(o)
-          // tree.handleNodeToggle(o.id, e);
-          console.log('after ',o._collapsed)
-          // if (o._children && o._children.length > 0) {
-          //   o._children.forEach(child => {
-          //     collapse(child)
-          //     console.log("collapsing ", child)
-          //   })
-          // }
-        // }
-        // collapse(o)
-          // tree.handleNodeToggle(o.id, false);
+        console.log('before ',o._collapsed)
+        tree.collapseNode(o)
+        console.log('after ',o._collapsed)
+        // tree.handleNodeToggle(o.id, false);
       });
     }
+    this.forceUpdate()
   }
 
   path(linkData, orientation){
@@ -352,7 +343,6 @@ class TreeChart extends Component {
     }
     
   }
-
 
   render(){
     if (isIE){

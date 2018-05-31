@@ -1,0 +1,40 @@
+.menu-toggle{
+  width: 100%;
+  height: 50px;
+  color: white;
+  background-color: #707071;
+  position: fixed;
+  // bottom: 0;
+  padding:5px;
+  box-shadow: 0px -2px 8px 1px #aaa;
+}
+
+.menu-toggle:hover{
+  background-color: #919191;
+  cursor: pointer;
+
+}
+h4{
+  display: inline-block;
+}
+
+// .menu.fade:not(.in) .modal-dialog {
+//     -webkit-transform: translate3d(0, 25%, 0);
+//     transform: translate3d(0, 25%, 0);
+// }
+
+.menu-container{
+  position: fixed;
+  bottom: -450px;
+}
+
+.open{
+  transform: translate3d(0, 0px, 0);
+  transition: ease-in-out 250ms;
+}
+
+.chart-container{
+  width:100vw;
+  height:500px;
+  // position: absolute;
+}

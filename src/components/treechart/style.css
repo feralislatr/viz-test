@@ -35,6 +35,6 @@ p {
 .nodeBaseName {
   text-overflow: ellipsis; }
 
-.active {
+.activeNode {
   background-color: #ffffe4;
   border-color: #ecc777; }
